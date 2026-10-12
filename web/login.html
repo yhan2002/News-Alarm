@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1015">
+  <title>News Alarm — 팀 로그인</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="login-body">
+  <main class="login-panel">
+    <span class="brand-mark" aria-hidden="true">N<span>↗</span></span>
+    <div class="eyebrow">NEWS ALARM / TEAM WORKSPACE</div>
+    <h1>미국 뉴스 리서치</h1>
+    <p class="login-description">팀 공유 비밀번호로 접속하세요.</p>
+    <form action="/login" method="post">
+      <label for="password">공유 비밀번호</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256" autofocus>
+      <p class="login-message" role="alert">{{message}}</p>
+      <button class="primary" type="submit">대시보드 열기 <span>↗</span></button>
+    </form>
+    <p class="login-foot">US EQUITIES · TEAM ACCESS</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,15 @@
+const assert=require('node:assert/strict');
+const j=require('./web/journal.js');
+const p=j.thesis({symbol:'msft',weight:'5',thesis:'Margin growth',watch:'Margin',invalidate:'Margin cut'});
+assert.equal(p.symbol,'MSFT');
+assert.throws(()=>j.thesis({...p,weight:'NaN'}));
+const a={id:'a',links:[{symbol:'MSFT'}],title:'Guidance cut',sentiment:{score:-.5},qwen:{facts:{evidence:'Guidance lowered'}}};
+const r=j.review(p,a,'반박','Company cut guidance','2026-09-23T00:00:00Z');
+p.thesis='Changed';a.qwen.facts.evidence='Changed';
+assert.equal(r.position.thesis,'Margin growth');assert.equal(r.article.facts.evidence,'Guidance lowered');assert.equal(r.article.sentiment.score,-.5);
+assert.throws(()=>j.review({...p,symbol:'AAPL'},a,'반박','reason','now'));
+const result=j.outcome({days:3,stock:2,market:1,sector:1.5,cost:.1,source:'Source, start/end price and timestamps',confounders:'Macro release'});
+assert.equal(result.market_excess,.9);assert.equal(result.sector_excess,.4);
+assert.throws(()=>j.outcome({days:1,stock:'',market:0,sector:0,cost:0,source:'x',confounders:'x'}));
+assert.throws(()=>j.outcome({days:1,stock:1,market:0,sector:0,cost:-1,source:'x',confounders:'x'}));
+console.log('PASS: immutable decision evidence, mandatory sentiment preservation, linked symbols, missing data and cost-adjusted comparisons');

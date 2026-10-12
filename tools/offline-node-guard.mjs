@@ -1,0 +1,15 @@
+import net from 'node:net';
+import http from 'node:http';
+import https from 'node:https';
+import dns from 'node:dns';
+import dgram from 'node:dgram';
+import childProcess from 'node:child_process';
+import {syncBuiltinESMExports} from 'node:module';
+const blocked = () => { throw new Error('External I/O disabled for offline tests'); };
+globalThis.fetch = blocked;
+net.connect = net.createConnection = net.Socket.prototype.connect = blocked;
+http.request = http.get = https.request = https.get = blocked;
+dns.lookup = dns.resolve = blocked;
+dgram.Socket.prototype.send = blocked;
+for (const key of ['spawn', 'spawnSync', 'exec', 'execSync', 'execFile', 'execFileSync', 'fork']) childProcess[key] = blocked;
+syncBuiltinESMExports();

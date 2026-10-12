@@ -1,0 +1,36 @@
+# Private runtime state, articles, positions, credentials and model artifacts
+/data/
+/models/
+/output/
+/tmp/
+/.vscode/
+/.venv/
+/venv/
+__pycache__/
+*.py[cod]
+*.sqlite*
+*.db
+*.db-*
+*.log
+*.dpapi
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+.env.*
+!.env.example
+*.local.py
+/config/*.py
+!/config/universe.example.py
+# Frontend dependencies and generated host/build state
+node_modules/
+.vinext/
+.next/
+.wrangler/
+.openai/
+.dev.vars
+.dev.vars.*
+dist/
+*.tsbuildinfo
+.DS_Store
