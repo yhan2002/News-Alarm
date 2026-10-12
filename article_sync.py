@@ -122,7 +122,10 @@ def synchronize(config, *, limit=1000):
 
 
 def locked_sync(config,limit=20000):
-    import msvcrt
+    try:
+        import msvcrt
+    except ImportError:
+        raise SystemExit('This worker requires Windows file locking; see docs/MACOS.md for supported local commands.') from None
     with (news.ROOT/'data/article-sync.lock').open('a+b') as lock:
         lock.seek(0)
         msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)

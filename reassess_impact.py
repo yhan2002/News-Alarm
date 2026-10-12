@@ -44,7 +44,10 @@ def main():
     if not args.run:
         print('PLAN ONLY: no API calls or writes. Add --run to execute.')
         return
-    import msvcrt
+    try:
+        import msvcrt
+    except ImportError:
+        raise SystemExit('This worker requires Windows file locking; see docs/MACOS.md for supported local commands.') from None
     with (fp.CACHE.parent/'qwen-worker.lock').open('a+b') as lock:
         lock.seek(0)
         msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)

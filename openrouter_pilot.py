@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 import time
 from datetime import datetime
 from urllib.error import HTTPError
@@ -21,6 +22,8 @@ KEY_FILE = ca.ROOT/'data/openrouter-key.dpapi'
 
 
 def save_key():
+    if sys.platform != 'win32':
+        raise ValueError('--save-key requires Windows DPAPI; on macOS use OPENROUTER_API_KEY or hidden input without saving.')
     key = getpass.getpass('OpenRouter key (hidden; saved with Windows encryption): ').strip()
     if not key.startswith('sk-or-') or any(c.isspace() for c in key):
         raise ValueError('Invalid OpenRouter key format')
@@ -39,6 +42,8 @@ def load_key():
     if os.environ.get('OPENROUTER_API_KEY'):
         return os.environ['OPENROUTER_API_KEY'].strip()
     if KEY_FILE.exists():
+        if sys.platform != 'win32':
+            raise ValueError('A Windows DPAPI key file cannot be opened on macOS; use OPENROUTER_API_KEY or remove the copied key file locally.')
         command = "$s=(Get-Content -LiteralPath $env:NEWS_OR_KEY_FILE -Raw).Trim() | ConvertTo-SecureString; [System.Net.NetworkCredential]::new('', $s).Password"
         result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', command],
                                 env={**{k: v for k, v in os.environ.items() if k.upper() != 'PSMODULEPATH'},

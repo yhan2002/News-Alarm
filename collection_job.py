@@ -39,11 +39,14 @@ def main():
     modes.add_argument('--dry-run', action='store_true')
     modes.add_argument('--publish-only', action='store_true', help='Recover publication without collecting or running models')
     args = parser.parse_args()
+    try:
+        import msvcrt
+    except ImportError:
+        raise SystemExit('This worker requires Windows file locking; see docs/MACOS.md for supported local commands.') from None
     for name in ('HF_HUB_OFFLINE', 'TRANSFORMERS_OFFLINE', 'HF_HUB_DISABLE_TELEMETRY'):
         os.environ[name] = '1'
     data = ROOT/'data'
     data.mkdir(parents=True, exist_ok=True)
-    import msvcrt
     try:
         lock = (data/'auto-collect.lock').open('a+b')
     except OSError:

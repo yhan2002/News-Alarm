@@ -305,7 +305,10 @@ if __name__ == '__main__':
     if args.activate and args.relation_verifier:
         parser.error('Choose one activation operation')
     if args.activate or args.relation_verifier:
-        import msvcrt
+        try:
+            import msvcrt
+        except ImportError:
+            raise SystemExit('This worker requires Windows file locking; see docs/MACOS.md for supported local commands.') from None
         with (fp.CACHE.parent/'qwen-worker.lock').open('a+b') as lock:
             lock.seek(0)
             msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)

@@ -174,7 +174,10 @@ def main():
     p.add_argument('--publish',action='store_true',help='Publish after each 100 attempts and final partial batch')
     args=p.parse_args()
     # Windows releases the byte lock on exit, including crashes. All CLI callers share it.
-    import msvcrt
+    try:
+        import msvcrt
+    except ImportError:
+        raise SystemExit('This worker requires Windows file locking; see docs/MACOS.md for supported local commands.') from None
     CACHE.parent.mkdir(parents=True, exist_ok=True)
     with (CACHE.parent/'qwen-worker.lock').open('a+b') as lock:
         lock.seek(0)

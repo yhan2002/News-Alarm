@@ -1,5 +1,7 @@
 # OpenRouter 연결 준비
 
+아래 `--save-key` 및 PowerShell 명령은 Windows용입니다. M1 Mac의 환경변수/숨김 입력 경로와 DPAPI 제한은 [macOS 안내](docs/MACOS.md)를 참고하세요. 설치·로컬 데모에는 API 키가 필요 없습니다.
+
 현재 단계는 **수동 연결 시험 준비**입니다. 수집·Qwen·Luna·웹 게시·텔레그램 자동화는 변경하지 않습니다.
 추가 패키지 없이 기존 Python 환경과 본문 근거 검증을 재사용합니다.
 

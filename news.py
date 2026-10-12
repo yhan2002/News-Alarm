@@ -326,7 +326,7 @@ def load_finbert():
     except ImportError as exc:
         raise RuntimeError('FinBERT 패키지가 없습니다. README의 설치 명령을 실행하세요.') from exc
     if not (MODEL_DIR / 'config.json').exists():
-        raise RuntimeError('로컬 모델이 없습니다. 먼저 .\\run.ps1 download-model 을 실행하세요.')
+        raise RuntimeError('로컬 모델이 없습니다. 먼저 python app.py download-model 을 실행하세요.')
     tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR, local_files_only=True)
     model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR, local_files_only=True)
     model.eval()
